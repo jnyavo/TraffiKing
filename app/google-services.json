@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "730037448123",
+    "project_id": "traffiking-42c8f",
+    "storage_bucket": "traffiking-42c8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730037448123:android:cde54578abbc7a20bce89e",
+        "android_client_info": {
+          "package_name": "com.udm.traffiking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730037448123-ti46f0embi9i2lh7dji1ni25qf3o145l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDCjpe09czSw5MLaJOaQrIdkKczbnYzwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "730037448123-ti46f0embi9i2lh7dji1ni25qf3o145l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
