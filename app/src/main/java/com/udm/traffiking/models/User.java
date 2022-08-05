@@ -16,21 +16,17 @@ import java.util.Observable;
 
 public class User extends Observable implements Table {
 
-    Map<String,String> data;
-
-
-
     public User ()
     {
-        data = new HashMap<String, String>() {{
-            put("id", "");
-            put("fname","");
-            put("lname","");
-            put("email","");
-            put("phone","");
-            put("password","");
-            put("confirmPassword","");
-        }};
+
+        data.put("id", "");
+        data.put("fname","");
+        data.put("lname","");
+        data.put("email","");
+        data.put("phone","");
+        data.put("password","");
+        data.put("confirmPassword","");
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -50,13 +46,25 @@ public class User extends Observable implements Table {
         notifyObservers();
     }
 
-    public Task<AuthResult> update()
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Task<AuthResult> createAuth()
     {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         return mAuth.createUserWithEmailAndPassword(getItem("email"),getItem("password"));
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Task<AuthResult> login()
+    {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        return mAuth.signInWithEmailAndPassword(getItem("email"),getItem("password"));
+    }
+
 
 
 

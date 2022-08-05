@@ -16,12 +16,16 @@ public interface Table{
     default void replaceData(final Map<String, String> userdata)
     {
         data.replaceAll((k,v) -> userdata.getOrDefault(k,""));
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     default String getItem(String key)
     {
-        return data.get(key);
+        return data.getOrDefault(key,"");
     }
+
+
     default Map<String,String> getData()
     {
         return data;

@@ -1,15 +1,15 @@
 package com.udm.traffiking.models;
 
-public class RegisterStatus<T> {
+public class FormStatus<T> {
 
 
 
     private T data;
     private Boolean success;
-    public RegisterStatus(T data)
+    public FormStatus(T data)
     {
         this.data = data;
-        success = true;
+        success = false;
     }
 
     public T getData()

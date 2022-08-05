@@ -22,5 +22,8 @@
     <string name="error_passwordConfirm">Does not match password</string>
     <string name="error_field">This field must be filled</string>
     <string name="registration_progress">You are being registered...</string>
+    <string name="reg_progress_title">Registration</string>
     <string name="registration_success">Registration successful</string>
+    <string name="login_progress">You are being logged in...</string>
+    <string name="login_success">Login successful</string>
 </resources>

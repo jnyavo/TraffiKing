@@ -19,7 +19,7 @@ import com.udm.traffiking.controllers.RegisterControllers;
 
 import com.udm.traffiking.data.RegisterData;
 import com.udm.traffiking.listeners.RegisterListener;
-import com.udm.traffiking.models.RegisterStatus;
+import com.udm.traffiking.models.FormStatus;
 import com.udm.traffiking.models.User;
 
 
@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements Observer {
 
     private Map<String,String> userdata;
     private User user;
-    private RegisterStatus status;
+    private FormStatus status;
 
 
 
@@ -48,7 +48,8 @@ public class RegisterActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         userdata = new HashMap<String,String>();
         user = new User();
-        status = new RegisterStatus(userdata);
+        user.addObserver(this);
+        status = new FormStatus(userdata);
         setContentView(R.layout.activity_register);
         already = findViewById(R.id.already);
 
@@ -61,17 +62,6 @@ public class RegisterActivity extends AppCompatActivity implements Observer {
             EditText field = findViewById(id);
             field.addTextChangedListener(new RegisterListener(field,this));
         }
-
-//        fname = findViewById(R.id.fname);
-//        lname = findViewById(R.id.lname);
-//        inputEmail = findViewById(R.id.inputEmail);
-//        inputPassword = findViewById(R.id.inputPassword);
-//        inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
-//        fname.addTextChangedListener(new RegisterListener(fname,this));
-//        lname.addTextChangedListener(new RegisterListener(lname,this));
-//        inputEmail.addTextChangedListener(new RegisterListener(inputEmail,this));
-//        inputPassword.addTextChangedListener(new RegisterListener(inputPassword,this));
-//        inputConfirmPassword.addTextChangedListener(new RegisterListener(inputConfirmPassword,this));
         
         already.setOnClickListener(v -> startActivity(new Intent(RegisterActivity.this,MainActivity.class))
         );
@@ -80,13 +70,14 @@ public class RegisterActivity extends AppCompatActivity implements Observer {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void update(Observable observable, Object o) {
         RegisterControllers.validateForm(this);
     }
 
 
-    public RegisterStatus getStatus()
+    public FormStatus getStatus()
     {
         return status;
     }

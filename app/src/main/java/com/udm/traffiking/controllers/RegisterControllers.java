@@ -14,21 +14,23 @@ import com.udm.traffiking.HomeActivity;
 import com.udm.traffiking.R;
 import com.udm.traffiking.RegisterActivity;
 import com.udm.traffiking.data.RegisterData;
-import com.udm.traffiking.models.RegisterStatus;
-import com.udm.traffiking.models.User;
 
-import java.util.Map;
+import java.util.regex.Pattern;
 
 public class RegisterControllers {
-    private final static String emailRegex = "^[\\\\w!#$%&’*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
+    private final static String emailRegex = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}";
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void validateForm(RegisterActivity registerActivity)
     {
         registerActivity.getStatus().validate();
+
         for (String col: RegisterData.fieldIds.keySet())
         {
+            //Toast.makeText(registerActivity,col+' '+registerActivity.getUser().getItem(col),Toast.LENGTH_SHORT).show();
             if(registerActivity.getUser().getItem(col).equals(""))
             {
+
                 registerActivity.getStatus().invalidate();
                 EditText field = registerActivity.findViewById(RegisterData.fieldIds.get(col));
                 if (field != null)
@@ -44,7 +46,9 @@ public class RegisterControllers {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void registerUser(RegisterActivity registerActivity)
     {
+        //Toast.makeText(registerActivity,registerActivity.getUserdata().toString(),Toast.LENGTH_LONG).show();
         registerActivity.getUser().replaceData(registerActivity.getUserdata());
+        //Toast.makeText(registerActivity,registerActivity.getUser().getData().toString(),Toast.LENGTH_LONG).show();
         ProgressDialog dialog = new ProgressDialog(registerActivity);
         if(!(registerActivity.getStatus().isSuccess()))
             return;
@@ -52,17 +56,17 @@ public class RegisterControllers {
         dialog.setTitle("Registration");
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        registerActivity.getUser().update().addOnCompleteListener(task->{
+        registerActivity.getUser().createAuth().addOnCompleteListener(task->{
             if(task.isSuccessful())
             {
                 dialog.dismiss();
                 NavigationControllers.sendUserToNextActivity(registerActivity, HomeActivity.class);
-                Toast.makeText(registerActivity,registerActivity.getResources().getString(R.string.registration_success),Toast.LENGTH_SHORT);
+                Toast.makeText(registerActivity,registerActivity.getResources().getString(R.string.registration_success),Toast.LENGTH_SHORT).show();
             }
             else
             {
                 dialog.dismiss();
-                Toast.makeText(registerActivity,""+task.getException(),Toast.LENGTH_SHORT);
+                Toast.makeText(registerActivity,""+task.getException(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -77,7 +81,8 @@ public class RegisterControllers {
         {
             case R.id.inputEmail:
                 String email = s.toString();
-                if (!email.matches(emailRegex))
+                Pattern pattern = Pattern.compile(emailRegex);
+                if (!pattern.matcher(email).matches())
                 {
                     target.setError(activity.getResources().getString(R.string.error_email));
                     activity.getStatus().invalidate();
@@ -112,7 +117,7 @@ public class RegisterControllers {
                     activity.getStatus().invalidate();
                     break;
                 }
-                activity.getUserdata().put(activity.getResources().getResourceName(id),val);
+                activity.getUserdata().put(activity.getResources().getResourceEntryName(id),val);
         }
     }
 
